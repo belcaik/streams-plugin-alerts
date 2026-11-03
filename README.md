@@ -42,7 +42,7 @@ Primero se descartan alertas de otro tipo, plataforma o condiciones no coinciden
 
 Las variaciones se eligen por peso y heredan `template` y `sound` base; pueden aportar `image`. La sustitución de placeholders produce texto plano.
 
-El pack `default` se activa si no existe ninguna alerta externa válida o si `packs` contiene explícitamente `"default"`. No se mezcla implícitamente con packs externos. El índice del host está en `/alerts/index.json`; conserva errores parciales sin invalidar las demás alertas.
+El pack `default` se activa si no existe ninguna alerta externa válida o si `packs` contiene explícitamente `"default"`. Además, cuando ningún pack activo tiene una alerta para un evento, se usa la alerta equivalente del pack `default`, así un pack que solo personaliza donaciones no deja sin alerta a follows o subs. El índice del host está en `/alerts/index.json`; conserva errores parciales sin invalidar las demás alertas.
 
 La estructura del plugin es:
 
