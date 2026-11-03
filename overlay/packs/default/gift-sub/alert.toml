@@ -1,0 +1,3 @@
+event = "gift_sub"
+template = "{user} regaló {count} suscripciones"
+duration_ms = 5500

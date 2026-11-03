@@ -1,0 +1,12 @@
+.st-alerts__alert[data-pack="default"][data-alert="sub"] {
+  background: linear-gradient(135deg, #831843, #be185d);
+}
+
+.st-alerts__alert[data-pack="default"][data-alert="sub"] .st-alerts__title {
+  animation: st-alerts-default-sub 650ms ease-out both;
+}
+
+@keyframes st-alerts-default-sub {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
