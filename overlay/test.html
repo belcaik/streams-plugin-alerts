@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prueba de Alerts</title>
+    <link rel="stylesheet" href="./test.css">
+  </head>
+  <body>
+    <main class="test-alerts">
+      <h1>Previsualización de alertas</h1>
+      <div class="test-alerts__controls">
+        <label for="platform">Plataforma</label>
+        <select id="platform">
+          <option value="twitch">Twitch</option>
+          <option value="kick">Kick</option>
+          <option value="youtube">YouTube</option>
+        </select>
+        <div id="buttons" class="test-alerts__buttons"></div>
+        <p id="status" class="test-alerts__status" role="status"></p>
+      </div>
+      <iframe class="test-alerts__preview" src="./" title="Vista previa del overlay"></iframe>
+    </main>
+    <script type="module">
+      import { sampleEvents } from "./alerts-core.js";
+
+      const labels = {
+        follow: "Follow", sub: "Sub", gift_sub: "Gift sub", raid: "Raid",
+        donation: "Donation", redemption: "Redemption", chat: "Chat",
+      };
+      const platform = document.querySelector("#platform");
+      const status = document.querySelector("#status");
+      const buttons = document.querySelector("#buttons");
+
+      for (const sample of sampleEvents()) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = labels[sample.type];
+        button.addEventListener("click", async () => {
+          const event = { ...sample, data: { ...sample.data }, id: crypto.randomUUID(), ts: new Date().toISOString(), platform: platform.value };
+          if (event.type === "donation" && platform.value === "twitch") {
+            event.data.amount = 500;
+            event.data.currency = "bits";
+          }
+          button.disabled = true;
+          status.textContent = "enviando";
+          try {
+            const response = await fetch("/api/events", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify(event),
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            status.textContent = "aceptado";
+          } catch (_) {
+            status.textContent = "error";
+          } finally {
+            button.disabled = false;
+          }
+        });
+        buttons.append(button);
+      }
+    </script>
+  </body>
+</html>
