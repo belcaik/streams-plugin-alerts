@@ -1,0 +1,3 @@
+event = "donation"
+template = "{user} aportó {amount} {currency}: {message}"
+duration_ms = 6000

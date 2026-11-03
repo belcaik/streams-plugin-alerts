@@ -1,0 +1,3 @@
+event = "chat"
+template = "{user}: {message}"
+duration_ms = 4000

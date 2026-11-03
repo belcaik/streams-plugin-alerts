@@ -1,0 +1,3 @@
+event = "redemption"
+template = "{user} canjeó {reward}: {message}"
+duration_ms = 5500

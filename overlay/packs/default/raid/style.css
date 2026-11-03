@@ -1,0 +1,12 @@
+.st-alerts__alert[data-pack="default"][data-alert="raid"] {
+  background: linear-gradient(135deg, #7c2d12, #ea580c);
+}
+
+.st-alerts__alert[data-pack="default"][data-alert="raid"] .st-alerts__image {
+  animation: st-alerts-default-raid 750ms ease-out both;
+}
+
+@keyframes st-alerts-default-raid {
+  from { opacity: 0; transform: translateX(2rem) scale(1.2); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
