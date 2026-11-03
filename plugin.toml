@@ -1,0 +1,16 @@
+name = "alerts"
+version = "0.1.0"
+description = "Customizable queued stream alerts for core events"
+
+[permissions]
+listens = ["follow", "sub", "gift_sub", "raid", "donation", "redemption", "chat"]
+emits = []
+
+[config]
+packs = []
+volume = 1.0
+gap_ms = 250
+max_queue = 20
+events = ["follow", "sub", "gift_sub", "raid", "donation", "redemption"]
+chat_alerts = false
+test_mode = false
