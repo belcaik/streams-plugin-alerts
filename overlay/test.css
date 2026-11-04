@@ -1,0 +1,79 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: system-ui, sans-serif;
+}
+
+.test-alerts {
+  display: grid;
+  grid-template-columns: minmax(16rem, 24rem) 1fr;
+  gap: 1.5rem;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.test-alerts__controls {
+  align-self: start;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #1e293b;
+}
+
+.test-alerts__controls label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.test-alerts__controls select,
+.test-alerts__controls button {
+  min-height: 2.5rem;
+  border: 1px solid #64748b;
+  border-radius: 0.4rem;
+  background: #334155;
+  color: inherit;
+  font: inherit;
+}
+
+.test-alerts__controls select {
+  width: 100%;
+  padding: 0.4rem;
+}
+
+.test-alerts__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.test-alerts__buttons button {
+  cursor: pointer;
+}
+
+.test-alerts__buttons button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.test-alerts__status {
+  min-height: 1.5rem;
+}
+
+.test-alerts__preview {
+  width: 100%;
+  min-height: 32rem;
+  border: 1px dashed #475569;
+  border-radius: 0.75rem;
+  background: transparent;
+}
+
+@media (max-width: 50rem) {
+  .test-alerts {
+    grid-template-columns: 1fr;
+  }
+}
