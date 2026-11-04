@@ -34,3 +34,14 @@ test("el pack default declara siete alertas coherentes con sus assets", async ()
     }
   }
 });
+
+test("plugin.toml declara identidad permisos y config sin worker", async () => {
+  const manifest = await readFile(`${root}plugin.toml`, "utf8");
+  assert.match(manifest, /^name = "alerts"$/m);
+  assert.deepEqual(JSON.parse(manifest.match(/^listens = (\[.*\])$/m)[1]), coreEvents);
+  assert.match(manifest, /^emits = \[\]$/m);
+  assert.doesNotMatch(manifest, /^\[worker\]$/m);
+  const config = manifest.split("[config]\n")[1];
+  const keys = [...config.matchAll(/^([a-z_]+) =/gm)].map((match) => match[1]).sort();
+  assert.deepEqual(keys, ["chat_alerts", "events", "gap_ms", "max_queue", "packs", "test_mode", "volume"]);
+});
