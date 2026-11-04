@@ -1,0 +1,12 @@
+.st-alerts__alert[data-pack="default"][data-alert="follow"] {
+  background: linear-gradient(135deg, #312e81, #6d28d9);
+}
+
+.st-alerts__alert[data-pack="default"][data-alert="follow"] .st-alerts__title {
+  animation: st-alerts-default-follow 600ms ease-out both;
+}
+
+@keyframes st-alerts-default-follow {
+  from { opacity: 0; transform: translateX(-1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}

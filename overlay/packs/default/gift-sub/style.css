@@ -1,0 +1,12 @@
+.st-alerts__alert[data-pack="default"][data-alert="gift-sub"] {
+  background: linear-gradient(135deg, #881337, #e11d48);
+}
+
+.st-alerts__alert[data-pack="default"][data-alert="gift-sub"] .st-alerts__image {
+  animation: st-alerts-default-gift-sub 700ms ease-out both;
+}
+
+@keyframes st-alerts-default-gift-sub {
+  from { opacity: 0; transform: rotate(-8deg) scale(0.7); }
+  to { opacity: 1; transform: rotate(0) scale(1); }
+}

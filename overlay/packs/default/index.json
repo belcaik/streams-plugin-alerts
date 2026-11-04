@@ -1,0 +1,108 @@
+{
+  "packs": [
+    {
+      "name": "default",
+      "alerts": [
+        {
+          "name": "chat",
+          "event": "chat",
+          "template": "{user}: {message}",
+          "priority": 0,
+          "duration_ms": 4000,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/chat/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "donation",
+          "event": "donation",
+          "template": "{user} aportó {amount} {currency}: {message}",
+          "priority": 0,
+          "duration_ms": 6000,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/donation/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "follow",
+          "event": "follow",
+          "template": "{user} ahora sigue el canal",
+          "priority": 0,
+          "duration_ms": 5000,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/follow/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "gift-sub",
+          "event": "gift_sub",
+          "template": "{user} regaló {count} suscripciones",
+          "priority": 0,
+          "duration_ms": 5500,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/gift-sub/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "raid",
+          "event": "raid",
+          "template": "{user} llegó con {viewers} viewers",
+          "priority": 0,
+          "duration_ms": 6000,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/raid/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "redemption",
+          "event": "redemption",
+          "template": "{user} canjeó {reward}: {message}",
+          "priority": 0,
+          "duration_ms": 5500,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/redemption/style.css",
+          "js": null,
+          "variations": []
+        },
+        {
+          "name": "sub",
+          "event": "sub",
+          "template": "{user} se suscribió por {months} mes(es) · nivel {tier}",
+          "priority": 0,
+          "duration_ms": 5500,
+          "volume": 1,
+          "conditions": {},
+          "sound": null,
+          "html": null,
+          "css": "/p/alerts/packs/default/sub/style.css",
+          "js": null,
+          "variations": []
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

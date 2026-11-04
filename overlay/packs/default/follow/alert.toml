@@ -1,0 +1,3 @@
+event = "follow"
+template = "{user} ahora sigue el canal"
+duration_ms = 5000
