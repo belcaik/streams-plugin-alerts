@@ -1,0 +1,12 @@
+.st-alerts__alert[data-pack="default"][data-alert="chat"] {
+  background: linear-gradient(135deg, #713f12, #ca8a04);
+}
+
+.st-alerts__alert[data-pack="default"][data-alert="chat"] .st-alerts__title {
+  animation: st-alerts-default-chat 450ms ease-out both;
+}
+
+@keyframes st-alerts-default-chat {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}

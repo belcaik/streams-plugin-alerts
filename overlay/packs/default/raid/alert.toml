@@ -1,0 +1,3 @@
+event = "raid"
+template = "{user} llegó con {viewers} viewers"
+duration_ms = 6000
