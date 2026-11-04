@@ -89,6 +89,16 @@ export function selectAlert(packs, event) {
   return candidates[0]?.alert ?? null;
 }
 
+// Usa el pack incorporado solo para los eventos que los packs activos no cubren.
+export function selectWithFallback(packs, fallback, event) {
+  const active = Array.isArray(packs) ? packs : [];
+  const alert = selectAlert(active, event);
+  if (alert) return { alert, pack: active.find((pack) => pack.alerts.includes(alert)) };
+  if (!fallback || active.includes(fallback)) return null;
+  const backup = selectAlert([fallback], event);
+  return backup ? { alert: backup, pack: fallback } : null;
+}
+
 export function chooseVariation(alert, random = Math.random) {
   const variations = Array.isArray(alert?.variations) ? alert.variations : [];
   const total = variations.reduce((sum, variation) => sum + (finite(variation?.weight) && variation.weight > 0 ? variation.weight : 0), 0);

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   CORE_EVENTS, normalizeConfig, eventFields, renderTemplate, matchesAlert,
-  specificity, selectAlert, chooseVariation, resolvePresentation, sampleEvents,
+  specificity, selectAlert, selectWithFallback, chooseVariation, resolvePresentation, sampleEvents,
 } from "../overlay/alerts-core.js";
 
 const event = (type = "donation") => sampleEvents().find((sample) => sample.type === type);
@@ -136,4 +136,15 @@ test("sampleEvents es serializable y respeta los schemas núcleo", () => {
       assert.deepEqual(JSON.parse(JSON.stringify(sample)), sample);
     }
   }
+});
+
+test("selectWithFallback usa el pack incorporado solo para eventos sin cubrir", () => {
+  const external = { name: "neon", alerts: [alert({ name: "big" })] };
+  const bundled = { name: "default", alerts: [alert({ name: "d" }), alert({ name: "f", event: "follow" })] };
+  assert.equal(selectWithFallback([external], bundled, event("donation")).pack, external);
+  const follow = selectWithFallback([external], bundled, event("follow"));
+  assert.equal(follow.pack, bundled);
+  assert.equal(follow.alert.name, "f");
+  assert.equal(selectWithFallback([external], null, event("follow")), null);
+  assert.equal(selectWithFallback([bundled], bundled, event("raid")), null);
 });

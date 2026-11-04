@@ -1,6 +1,6 @@
 import {
   CORE_EVENTS, normalizeConfig, eventFields, renderTemplate,
-  selectAlert, resolvePresentation, sampleEvents,
+  selectWithFallback, resolvePresentation, sampleEvents,
 } from "./alerts-core.js";
 
 const root = document.querySelector(".st-alerts");
@@ -8,6 +8,7 @@ const installedStyles = new Set();
 const installedScripts = new Set();
 let config = normalizeConfig();
 let packs = [];
+let bundledPack = null;
 let queue = [];
 let draining = false;
 
@@ -29,14 +30,13 @@ function activePacks(external, bundled, settings) {
 function enqueue(event) {
   if (!config.events.includes(event?.type)) return;
   if (event.type === "chat" && !config.chat_alerts) return;
-  const alert = selectAlert(packs, event);
-  if (!alert) return;
+  const selected = selectWithFallback(packs, bundledPack, event);
+  if (!selected) return;
   if (queue.length >= config.max_queue) {
     console.warn(`[alerts] cola llena; se descarta ${event.type}`);
     return;
   }
-  const pack = packs.find((candidate) => candidate.alerts.includes(alert));
-  queue.push({ alert, event, pack: pack?.name ?? "" });
+  queue.push({ alert: selected.alert, event, pack: selected.pack?.name ?? "" });
   if (!draining) void drain();
 }
 
@@ -162,8 +162,8 @@ async function initialize() {
   ]);
   config = normalizeConfig(rawConfig);
   warnIssues(externalResult.errors);
-  const bundled = bundledResult?.packs?.find((pack) => pack.name === "default") ?? null;
-  packs = activePacks(externalResult.packs ?? [], bundled, config);
+  bundledPack = bundledResult?.packs?.find((pack) => pack.name === "default") ?? null;
+  packs = activePacks(externalResult.packs ?? [], bundledPack, config);
   for (const type of CORE_EVENTS) window.streams.on(type, (_data, event) => enqueue(event));
   if (config.test_mode) for (const event of sampleEvents().filter(({ type }) => type !== "chat")) enqueue(event);
 }
