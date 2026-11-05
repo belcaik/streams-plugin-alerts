@@ -6,20 +6,36 @@ Es compatible con Twitch, Kick y YouTube y con los eventos `follow`, `sub`, `gif
 
 ## Instalación
 
-Instala el repositorio como `plugins/alerts` dentro de `streams-tools`, por ejemplo:
+Añade el repositorio a `config.toml` de streams-tools para instalar el plugin cuando falte:
 
-```sh
-git submodule add -b main <url> plugins/alerts
+```toml
+[plugins]
+install = ["https://github.com/belcaik/streams-plugin-alerts"]
 ```
 
-Reinicia `streams-tools`. En OBS añade un Browser Source con:
+También puedes instalarlo desde la línea de comandos:
+
+```sh
+streams-tools plugin add https://github.com/belcaik/streams-plugin-alerts
+```
+
+Ambos métodos descargan `alerts-any.zip` y verifican su SHA-256. Para fijar la versión usa `https://github.com/belcaik/streams-plugin-alerts@v0.1.0`.
+
+En OBS añade un Browser Source con:
 
 - URL: `http://127.0.0.1:7777/p/alerts/`
 - Tamaño recomendado: 800 × 600 píxeles; ajusta el ancho a tu composición.
 
-La configuración se edita en `plugins/alerts/plugin.toml` y se sirve al overlay como `config.json`.
-
 ## Configuración
+
+No edites `plugin.toml`: una actualización reemplaza la carpeta del plugin. Declara sólo tus cambios en `[plugins.config.alerts]` dentro de `config.toml` de streams-tools. El host hace deep merge sobre los defaults `[config]` del manifiesto; las tablas se mezclan recursivamente y los arrays se reemplazan completos. Por ejemplo:
+
+```toml
+[plugins.config.alerts]
+packs = ["default"]
+volume = 0.8
+max_queue = 30
+```
 
 | Clave de `[config]` | Default | Descripción |
 |---|---:|---|
