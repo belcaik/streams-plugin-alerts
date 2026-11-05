@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Verificar versión del tag
+        shell: bash
+        run: |
+          version=$(sed -n 's/^version = "\([^"]*\)"/\1/p' plugin.toml)
+          test -n "$version" || { echo "No se pudo leer version de plugin.toml"; exit 1; }
+          test "$GITHUB_REF_NAME" = "v$version" || { echo "El tag debe ser v$version"; exit 1; }
+      - name: Preparar paquete
+        shell: bash
+        run: |
+          mkdir -p dist/alerts
+          cp plugin.toml README.md LICENSE dist/alerts/
+          cp -R overlay dist/alerts/
+      - name: Verificar contenido
+        shell: bash
+        run: |
+          for file in plugin.toml README.md LICENSE overlay/index.html overlay/style.css overlay/app.js overlay/alerts-core.js overlay/packs/default/index.json; do
+            test -f "dist/alerts/$file" || { echo "Falta $file"; exit 1; }
+          done
+          test ! -e dist/alerts/bin || { echo "alerts-any.zip no debe contener bin/"; exit 1; }
+      - name: Comprimir ZIP
+        shell: bash
+        run: cd dist && zip -r alerts-any.zip alerts
+      - uses: actions/upload-artifact@v7
+        with:
+          name: alerts-any
+          path: dist/alerts-any.zip
+          if-no-files-found: error
+
+  publish:
+    needs: package
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Verificar asset y generar checksum
+        shell: bash
+        working-directory: dist
+        run: |
+          export LC_ALL=C
+          expected=alerts-any.zip
+          actual=$(find . -maxdepth 1 -type f -name '*.zip' -printf '%f\n' | sort)
+          test "$actual" = "$expected" || { echo "Conjunto de assets inesperado"; exit 1; }
+          sha256sum *.zip > SHA256SUMS
+          sha256sum -c SHA256SUMS
+      - uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            dist/*.zip
+            dist/SHA256SUMS
+          fail_on_unmatched_files: true
